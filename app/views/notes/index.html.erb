@@ -1,3 +1,13 @@
 <h1>My Notes</h1>
 
 <p>Welcome <%= current_user.email %></p>
+
+<ul>
+  <% @notes.each do |note| %>
+    <li>
+      <strong><%= note.title %></strong>
+      <br>
+      <%= note.content %>
+    </li>
+  <% end %>
+</ul>
