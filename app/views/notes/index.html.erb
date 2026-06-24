@@ -7,7 +7,7 @@
 <ul>
   <% @notes.each do |note| %>
     <li>
-      <strong><%= note.title %></strong>
+      <%= link_to note.title, note_path(note) %>
       <br>
       <%= note.content %>
     </li>

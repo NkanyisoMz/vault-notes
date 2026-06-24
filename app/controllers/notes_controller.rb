@@ -19,6 +19,10 @@ class NotesController < ApplicationController
         end
     end
 
+    def show
+        @note = current_user.notes.find(params[:id])
+    end
+
     private
 
     def note_params
