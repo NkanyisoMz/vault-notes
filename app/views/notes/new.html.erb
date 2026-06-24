@@ -1,5 +1,20 @@
 <h1>New Note</h1>
 
+<% if @note.errors.any? %>
+  <div>
+    <h2>
+      <%= pluralize(@note.errors.count, "error") %>
+      prevented this note from being saved:
+    </h2>
+
+    <ul>
+      <% @note.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
 <%= form_with model: @note do |form| %>
   <div>
     <%= form.label :title %><br>
