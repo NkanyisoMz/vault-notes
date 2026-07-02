@@ -17,7 +17,7 @@ jobs:
 
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.4.0
+          ruby-version: .ruby-version
           bundler-cache: true
 
       - run: bundle install
@@ -33,7 +33,7 @@ jobs:
 
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.4.0
+          ruby-version: .ruby-version
           bundler-cache: true
 
       - run: bundle install
@@ -55,7 +55,7 @@ jobs:
 
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.4.0
+          ruby-version: .ruby-version
           bundler-cache: true
 
       - run: bundle install
