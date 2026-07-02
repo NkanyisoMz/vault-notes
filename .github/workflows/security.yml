@@ -1,0 +1,36 @@
+name: Security Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  security:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.4.0'
+          bundler-cache: true
+
+      - name: Install Dependencies
+        run: bundle install
+
+      - name: Run Brakeman
+        run: bundle exec brakeman
+
+      - name: Update Ruby Advisory Database
+        run: bundle exec bundle-audit update
+
+      - name: Run bundler-audit
+        run: bundle exec bundle-audit check
