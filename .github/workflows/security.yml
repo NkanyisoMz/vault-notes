@@ -1,36 +1,61 @@
-name: Security Pipeline
+name: CI / Security Pipeline
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
 
   pull_request:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
-  security:
+
+  tests:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
+      - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.4.0'
+          ruby-version: 3.4.0
           bundler-cache: true
 
-      - name: Install Dependencies
-        run: bundle install
+      - run: bundle install
+
+      - name: Run Rails Tests
+        run: bundle exec rails test
+
+  brakeman:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.4.0
+          bundler-cache: true
+
+      - run: bundle install
 
       - name: Run Brakeman
         run: bundle exec brakeman
 
-      - name: Update Ruby Advisory Database
+  dependency_scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.4.0
+          bundler-cache: true
+
+      - run: bundle install
+
+      - name: Update Advisory Database
         run: bundle exec bundle-audit update
 
-      - name: Run bundler-audit
+      - name: Run Dependency Scan
         run: bundle exec bundle-audit check
