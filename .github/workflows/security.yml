@@ -39,7 +39,13 @@ jobs:
       - run: bundle install
 
       - name: Run Brakeman
-        run: bundle exec brakeman
+        run: bundle exec brakeman -o brakeman.html
+
+      - name: Upload Brakeman Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: brakeman-report
+          path: brakeman.html
 
   dependency_scan:
     runs-on: ubuntu-latest
